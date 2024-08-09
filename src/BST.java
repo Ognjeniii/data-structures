@@ -1,3 +1,6 @@
+import java.util.LinkedList;
+import java.util.Queue;
+
 public class BST <T extends Comparable<T>> {
 
     // number of nodes in bst
@@ -54,9 +57,6 @@ public class BST <T extends Comparable<T>> {
             }
         }
         return node;
-    }
-
-    private boolean contains(T elem) {
     }
 
     public boolean remove(T elem) {
@@ -144,4 +144,79 @@ public class BST <T extends Comparable<T>> {
             curr = curr.right;
         return curr;
     }
+
+    public boolean contains(T elem) {
+        return contains(root, elem);
+    }
+
+    private boolean contains(Node node, T elem) {
+        if (node == null)
+            return false;
+
+        int cmp = elem.compareTo(node.data);
+
+        if (cmp < 0)
+            return contains(node.left, elem);
+
+        else if (cmp > 0)
+            return contains(node.right, elem);
+
+        else
+            return true;
+    }
+
+    public int height() {
+        return height(root);
+    }
+
+    private int height(Node node) {
+        if(node == null)
+            return 0;
+
+        return Math.max(height(node.left), height(node.right)) + 1;
+    }
+
+    public void preorder(Node node) {
+        if (node == null)
+            return;
+
+        System.out.print(node.data + " ");
+        preorder(node.left);
+        preorder(node.right);
+    }
+
+    public void inorder(Node node) {
+        if (node == null)
+            return;
+
+        inorder(node.left);
+        System.out.println(node.data + " ");
+        inorder(node.right);
+    }
+
+    public void postorder(Node node) {
+        if (node == null)
+            return;
+
+        postorder(node.left);
+        postorder(node.right);
+        System.out.println(node.data + " ");
+    }
+
+    public void levelOrder(Node node) {
+        Queue<Node> q = new LinkedList<>();
+         q.add(node);
+
+         while(!q.isEmpty()) {
+             Node curr = q.poll();
+             System.out.print(curr + " ");
+
+             if (curr.left != null)
+                 q.add(curr.left);
+
+             if (curr.right != null)
+                 q.add(curr.right);
+         }
+    }
+    //test
 }
